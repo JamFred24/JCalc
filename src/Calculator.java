@@ -9,14 +9,17 @@ public class Calculator implements ActionListener {
     JButton[] numberButtons = new JButton[10];
     JButton[] functionButtons = new JButton[9];
     JButton[] trigButtons = new JButton[8];
+    JButton[] expButtons = new JButton[5];
     JButton addButton, subButton, mulButton, divButton;
     JButton decButton, equButton, delButton, clrButton, negButton;
     JButton sinButton, cosButton, tanButton, arcsinButton, arccosButton, arctanButton;
     JButton toRadiansButton, toDegreesButton;
+    JButton eButton, expTenButton, logButton, logTenButton, powerButton;
     JPanel panel;
     JPanel trigPanel;
 
     Font myfont = new Font("Arial", Font.BOLD, 30);
+    Font smallfont = new Font("Arial", Font.BOLD, 14);
 
     double num1=0,num2=0,result=0;
     char operator;
@@ -43,6 +46,7 @@ public class Calculator implements ActionListener {
         delButton = new JButton("DEL");
         clrButton = new JButton("C");
         negButton = new JButton("(-)");
+
         sinButton = new JButton("sin()");
         cosButton = new JButton("cos()");
         tanButton = new JButton("tan()");
@@ -51,6 +55,12 @@ public class Calculator implements ActionListener {
         arctanButton = new JButton("atan()");
         toDegreesButton = new JButton("DEG");
         toRadiansButton = new JButton("RAD");
+
+        eButton = new JButton("e^x");
+        expTenButton = new JButton("10^x");
+        logButton = new JButton("ln(x)");
+        logTenButton = new JButton("log(x)");
+        powerButton = new JButton("x^y");
 
 
         functionButtons[0] = addButton;
@@ -72,6 +82,17 @@ public class Calculator implements ActionListener {
         trigButtons[6] = toRadiansButton;
         trigButtons[7] = toDegreesButton;
 
+        expButtons[0] = eButton;
+        expButtons[1] = expTenButton;
+        expButtons[2] = logButton;
+        expButtons[3] = logTenButton;
+        expButtons[4] = powerButton;
+
+        for(int i=0; i<5; i++){
+            expButtons[i].addActionListener(this);
+            expButtons[i].setFont(smallfont);
+            expButtons[i].setFocusable(false);
+        }
 
 
         for(int i=0; i<8; i++) {
@@ -96,6 +117,12 @@ public class Calculator implements ActionListener {
         negButton.setBounds(50,430,100,50);
         delButton.setBounds(150,430,100,50);
         clrButton.setBounds(250,430,100,50);
+        powerButton.setBounds(275, 430, 75, 50);
+
+        eButton.setBounds(370, 430, 75, 50);
+        expTenButton.setBounds(445, 430, 75, 50);
+        logButton.setBounds(515, 430, 75, 50);
+        logTenButton.setBounds(585, 430, 75, 50);
 
         trigPanel = new JPanel();
         trigPanel.setBounds(370,100,200,300);
@@ -135,6 +162,11 @@ public class Calculator implements ActionListener {
         frame.add(negButton);
         frame.add(delButton);
         frame.add(clrButton);
+        frame.add(powerButton);
+        frame.add(eButton);
+        frame.add(expTenButton);
+        frame.add(logButton);
+        frame.add(logTenButton);
         frame.add(textField);
         frame.setVisible(true);
 
@@ -179,6 +211,11 @@ public class Calculator implements ActionListener {
             operator = '/';
             textField.setText("");
         }
+        if(e.getSource()==powerButton) {
+            num1 = Double.parseDouble(textField.getText());
+            operator = '^';
+            textField.setText("");
+        }
         if(e.getSource()==equButton) {
             num2 = Double.parseDouble(textField.getText());
 
@@ -194,6 +231,9 @@ public class Calculator implements ActionListener {
                     break;
                 case '/':
                     result = num1 / num2;
+                    break;
+                case  '^':
+                    result = Math.pow(num1, num2);
                     break;
 
             }
@@ -292,6 +332,26 @@ public class Calculator implements ActionListener {
             if(radians){
                 radians = false;
             }
+        }
+        if(e.getSource()==eButton){
+            double temp = Double.parseDouble(textField.getText());
+            result = Math.exp(temp);
+            textField.setText(String.valueOf(result));
+        }
+        if(e.getSource()==expTenButton){
+            double temp = Double.parseDouble(textField.getText());
+            result = Math.pow(10, temp);
+            textField.setText(String.valueOf(result));
+        }
+        if(e.getSource()==logButton){
+            double temp = Double.parseDouble(textField.getText());
+            result = Math.log(temp);
+            textField.setText(String.valueOf(result));
+        }
+        if(e.getSource()==logTenButton){
+            double temp = Double.parseDouble(textField.getText());
+            result = Math.log10(temp);
+            textField.setText(String.valueOf(result));
         }
 
     }
